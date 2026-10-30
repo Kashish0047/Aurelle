@@ -1,0 +1,63 @@
+SALON WEBSITE TEMPLATE — LICENSE AGREEMENT
+
+Copyright (c) 2026 [YOUR NAME / STUDIO NAME]. All rights reserved.
+
+By purchasing, downloading or using this template ("the Template") you agree to the terms below.
+
+1. WHAT ONE PURCHASE ALLOWS
+
+   One purchase grants you a non-exclusive, non-transferable licence to use the Template to
+   create ONE (1) End Product:
+
+     (a) a website for yourself or your own business, OR
+     (b) a website for ONE (1) client, which you may charge the client for.
+
+   An "End Product" is one website for one business, deployed at one primary domain. You may
+   modify the Template as much as you like for that End Product. Each additional website (for
+   yourself or for another client) requires an additional purchase.
+
+2. YOU MAY
+
+   - Modify, adapt, combine and customise the Template for the permitted End Product.
+   - Charge your client for your design, development, content and hosting work.
+   - Transfer the finished End Product (not the Template) to the client you built it for.
+   - Keep development, staging and preview copies of that same End Product.
+
+3. YOU MAY NOT
+
+   - Resell, sublicense, share, give away or redistribute the Template, or any modified version
+     of it, as a template, theme, starter kit, boilerplate or source-code product — whether free
+     or paid, on any marketplace, website or repository.
+   - Include the Template in a product that lets others build multiple websites from it
+     (e.g. a website builder, SaaS, or "template generator").
+   - Make the source code publicly available (e.g. a public Git repository).
+   - Claim the Template's original design or code as your own work when selling templates.
+
+4. THIRD-PARTY COMPONENTS
+
+   The Template uses open-source software and fonts that remain under their own licences:
+   Next.js, React, Tailwind CSS, Three.js, React Three Fiber, Drei, Framer Motion, Lenis,
+   React Hook Form, Zod (MIT licence); GSAP (GreenSock standard "no charge" licence — see
+   gsap.com/standard-license); Cormorant Garamond and DM Sans fonts (SIL Open Font License 1.1).
+   These licences are not changed by this agreement.
+
+   Placeholder images included with the Template are generated graphics provided only so the
+   Template displays correctly; replace them with images you have the right to use. You are
+   responsible for the licences of all photos, logos and text you add.
+
+5. NO WARRANTY
+
+   The Template is provided "as is", without warranty of any kind, express or implied, including
+   fitness for a particular purpose. The author is not liable for any damages arising from the
+   use of the Template, including loss of data, bookings or revenue. You are responsible for
+   compliance with laws that apply to your End Product (e.g. privacy and data protection when
+   collecting booking details).
+
+6. TERMINATION
+
+   This licence ends automatically if you breach its terms. On termination you must stop using
+   the Template and destroy all copies, except End Products already delivered in compliance
+   with this licence.
+
+For an extended licence (multiple sites, agencies, or redistribution rights), contact:
+[YOUR EMAIL].

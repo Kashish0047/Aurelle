@@ -1,0 +1,324 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────────
+   Design tokens
+   Raw values (--bg, --accent …) are injected on <html> from the active
+   theme preset (src/config/theme.presets.ts). The fallbacks below are the
+   "blush" preset, used only if the inline style is missing.
+   ────────────────────────────────────────────────────────────────────── */
+:root {
+  --bg: #fbf6f1;
+  --bg-alt: #f5eae3;
+  --surface: #fffdfb;
+  --text: #3a1f2b;
+  --text-muted: #6e5560;
+  --accent: #a05360;
+  --accent-contrast: #fff8f4;
+  --gold: #a4824d;
+  --line: rgba(58, 31, 43, 0.14);
+  --glow: #f2c4c4;
+
+  /* Brand-recognisable WhatsApp green for the floating chat button (same in every theme). */
+  --whatsapp: #25d366;
+
+  --nav-height: 4.5rem;
+}
+
+/* Map tokens to Tailwind utilities: bg-bg, text-ink, border-line, text-accent … */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-alt: var(--bg-alt);
+  --color-surface: var(--surface);
+  --color-ink: var(--text);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-contrast: var(--accent-contrast);
+  --color-gold: var(--gold);
+  --color-line: var(--line);
+  --color-glow: var(--glow);
+  --color-whatsapp: var(--whatsapp);
+
+  --font-serif: var(--font-serif-family), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-sans-family), "DM Sans", system-ui, sans-serif;
+}
+
+@theme {
+  /* Fluid type scale: min at 360px, max at ~1600px */
+  --text-display: clamp(3.25rem, 1.6rem + 7.4vw, 9.5rem);
+  --text-display--line-height: 0.92;
+  --text-headline: clamp(2.5rem, 1.6rem + 4vw, 5.75rem);
+  --text-headline--line-height: 1;
+  --text-title: clamp(1.75rem, 1.35rem + 1.6vw, 3rem);
+  --text-title--line-height: 1.08;
+  --text-lead: clamp(1.05rem, 0.98rem + 0.35vw, 1.3rem);
+  --text-lead--line-height: 1.55;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-soft: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --radius-organic: 46% 54% 42% 58% / 55% 45% 55% 45%;
+}
+
+/* ── Layout helpers ─────────────────────────────────────────────────── */
+@utility container-site {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 3.5rem);
+}
+
+@utility section-pad {
+  padding-block: clamp(5rem, 3rem + 8vw, 11rem);
+}
+
+/* Small uppercase label above section titles */
+@utility eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Masked line used for line-by-line text reveals (child slides up from below) */
+@utility mask-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────── */
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--text);
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: auto;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg);
+    min-height: 100dvh;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--accent-contrast);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  [tabindex="-1"]:focus {
+    outline: none;
+  }
+}
+
+/* ── Lenis (smooth scroll) required rules ───────────────────────────── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* ── Intro: preloader curtain + hero entrance ───────────────────────── */
+/* Pure CSS, so both start on the very first paint, even while JavaScript is still
+   loading on a slow phone. JS only adds "skip" and announces when the curtain is gone.
+   Timeline: letters rise (0–0.85s) → curtain lifts (0.9–1.5s) → hero lines rise from 1.0s. */
+:root {
+  --intro-delay: 1s; /* when the hero starts revealing */
+}
+/* Intro already seen this session / reduced motion / preloader disabled → reveal right away. */
+html[data-intro-skip],
+html.intro-skipped {
+  --intro-delay: 0.1s;
+}
+html[data-intro-skip] .preloader {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .preloader {
+    animation: pl-curtain 0.6s var(--ease-in-out-soft) 0.9s forwards;
+  }
+  .preloader .pl-inner {
+    animation: pl-inner-out 0.45s ease-in 0.85s forwards;
+  }
+  .preloader .pl-char {
+    transform: translate3d(0, 115%, 0);
+    animation: pl-rise 0.65s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--i, 0) * 30ms);
+  }
+  .preloader .pl-line {
+    transform: scaleX(0);
+    animation: pl-line 0.7s var(--ease-in-out-soft) 0.05s forwards;
+  }
+  .preloader .pl-caption {
+    opacity: 0;
+    animation: pl-fade 0.45s ease-out 0.3s forwards;
+  }
+  /* Skip: lift the curtain now. */
+  .preloader.is-skipping,
+  .preloader.is-skipping .pl-inner {
+    animation-delay: 0s;
+  }
+
+  /* Hero entrance (html.js = JavaScript is running; without it, content is simply visible). */
+  .js .reveal-line {
+    transform: translate3d(0, 110%, 0);
+    animation: intro-line 1.3s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--intro-delay) + var(--i, 0) * 0.12s);
+  }
+  .js .reveal-up {
+    opacity: 0;
+    transform: translate3d(0, 24px, 0);
+    animation: intro-up 1s var(--ease-out-expo) forwards;
+    animation-delay: calc(var(--intro-delay) + 0.3s + var(--i, 0) * 0.07s);
+  }
+}
+
+@keyframes pl-rise {
+  to { transform: translate3d(0, 0, 0); }
+}
+@keyframes pl-line {
+  to { transform: scaleX(1); }
+}
+@keyframes pl-fade {
+  to { opacity: 1; }
+}
+@keyframes pl-inner-out {
+  to { opacity: 0; transform: translate3d(0, -30%, 0); }
+}
+@keyframes pl-curtain {
+  to { transform: translate3d(0, -100%, 0); visibility: hidden; }
+}
+@keyframes intro-line {
+  to { transform: translate3d(0, 0, 0); }
+}
+@keyframes intro-up {
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* ── Marquee: GPU-driven drift (JS only tweaks playbackRate on scroll) ── */
+@media (prefers-reduced-motion: no-preference) {
+  .marquee-track {
+    animation: marquee-drift 45s linear infinite;
+    will-change: transform;
+  }
+}
+@keyframes marquee-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* ── Slow ambient float for CSS fallbacks ───────────────────────────── */
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(2%, -4%, 0) scale(1.05);
+  }
+}
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Custom cursor ──────────────────────────────────────────────────── */
+html.has-custom-cursor,
+html.has-custom-cursor a,
+html.has-custom-cursor button,
+html.has-custom-cursor [role="button"] {
+  cursor: none;
+}
+html.has-custom-cursor input,
+html.has-custom-cursor textarea,
+html.has-custom-cursor select {
+  cursor: auto;
+}
+
+/* ── Grain overlay ──────────────────────────────────────────────────── */
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 0.9s steps(4) infinite;
+}
+/* Touch devices: keep the grain still (the stepped animation costs style work every frame). */
+@media (hover: none) {
+  .grain {
+    animation: none;
+  }
+}
+@keyframes grain-shift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-4%, 3%); }
+  50% { transform: translate(3%, -5%); }
+  75% { transform: translate(-2%, -3%); }
+  100% { transform: translate(5%, 2%); }
+}
+
+/* ── Animated underline for text links ──────────────────────────────── */
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.5s var(--ease-out-expo);
+}
+.link-underline:hover,
+.link-underline:focus-visible,
+.link-underline[aria-current="true"] {
+  background-size: 100% 1px;
+}
+
+/* ── Reduced motion: kill decorative CSS motion globally ────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .grain {
+    animation: none;
+  }
+}

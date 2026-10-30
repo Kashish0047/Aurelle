@@ -1,0 +1,135 @@
+import type { Service, ServiceCategory } from "./types";
+
+/**
+ * Categories drive the filter chips in the Services section.
+ * Add/remove freely — `category` on each service is type-checked against these ids.
+ */
+export const serviceCategories = [
+  { id: "hair", label: "Hair" },
+  { id: "skin", label: "Skin" },
+  { id: "makeup", label: "Makeup" },
+  { id: "nails", label: "Nails" },
+  { id: "bridal", label: "Bridal" },
+  { id: "spa", label: "Spa" },
+] as const satisfies readonly ServiceCategory[];
+
+export type ServiceCategoryId = (typeof serviceCategories)[number]["id"];
+
+/** Prices are in the currency set in site.config.ts (INR by default). */
+export const services: Service<ServiceCategoryId>[] = [
+  {
+    id: "signature-cut",
+    category: "hair",
+    name: "Signature Cut & Style",
+    description: "Consultation, wash, precision cut and a blow-dry finished by hand.",
+    durationMinutes: 60,
+    price: 1800,
+    image: { src: "/images/services/signature-cut.jpg", alt: "Stylist shaping a soft layered haircut" },
+  },
+  {
+    id: "balayage",
+    category: "hair",
+    name: "Hand-painted Balayage",
+    description: "Sun-kissed, low-maintenance colour painted freehand, with gloss and bond care.",
+    durationMinutes: 180,
+    price: 7500,
+    priceFrom: true,
+    popular: true,
+    image: { src: "/images/services/balayage.jpg", alt: "Long hair with soft caramel balayage" },
+  },
+  {
+    id: "keratin",
+    category: "hair",
+    name: "Keratin Smoothing Ritual",
+    description: "Frizz-free, glossy hair for up to four months. Formaldehyde-free formula.",
+    durationMinutes: 150,
+    price: 6000,
+    priceFrom: true,
+    image: { src: "/images/services/keratin.jpg", alt: "Sleek, glossy straight hair" },
+  },
+  {
+    id: "hydra-facial",
+    category: "skin",
+    name: "Hydra Glow Facial",
+    description: "Deep cleanse, gentle exfoliation and hydration infusion for instant radiance.",
+    durationMinutes: 75,
+    price: 4500,
+    popular: true,
+    image: { src: "/images/services/hydra-facial.jpg", alt: "Client relaxing during a facial treatment" },
+  },
+  {
+    id: "brow-lash",
+    category: "skin",
+    name: "Brow Sculpt & Lash Lift",
+    description: "Mapped brow shaping and tint with a nourishing, curl-setting lash lift.",
+    durationMinutes: 60,
+    price: 2200,
+    image: { src: "/images/services/brow-lash.jpg", alt: "Close-up of shaped brows and lifted lashes" },
+  },
+  {
+    id: "party-makeup",
+    category: "makeup",
+    name: "Soft Glam Makeup",
+    description: "Skin-first, long-wear makeup for parties, shoots and receptions.",
+    durationMinutes: 75,
+    price: 4000,
+    image: { src: "/images/services/party-makeup.jpg", alt: "Soft glam makeup with luminous skin" },
+  },
+  {
+    id: "gel-manicure",
+    category: "nails",
+    name: "Gel Manicure",
+    description: "Cuticle care, shaping and a chip-free gel finish that lasts three weeks.",
+    durationMinutes: 50,
+    price: 1500,
+    image: { src: "/images/services/gel-manicure.jpg", alt: "Neutral glossy gel manicure" },
+  },
+  {
+    id: "nail-art",
+    category: "nails",
+    name: "Couture Nail Art",
+    description: "Extensions and hand-painted art, from minimalist lines to full chrome.",
+    durationMinutes: 90,
+    price: 2800,
+    priceFrom: true,
+    image: { src: "/images/services/nail-art.jpg", alt: "Delicate hand-painted nail art" },
+  },
+  {
+    id: "bridal-makeup",
+    category: "bridal",
+    name: "Bridal Makeup",
+    description: "HD airbrush makeup, hairstyling and draping by our senior bridal artist.",
+    durationMinutes: 180,
+    price: 25000,
+    priceFrom: true,
+    popular: true,
+    image: { src: "/images/services/bridal-makeup.jpg", alt: "Bride with luminous, elegant makeup" },
+  },
+  {
+    id: "bridal-trial",
+    category: "bridal",
+    name: "Bridal Trial",
+    description: "A full rehearsal of your wedding look, so the big day holds no surprises.",
+    durationMinutes: 120,
+    price: 6000,
+    image: { src: "/images/services/bridal-trial.jpg", alt: "Makeup artist testing a bridal look" },
+  },
+  {
+    id: "aroma-massage",
+    category: "spa",
+    name: "Aromatherapy Massage",
+    description: "Full-body Swedish massage with warm essential oils to melt the week away.",
+    durationMinutes: 60,
+    price: 3500,
+    image: { src: "/images/services/aroma-massage.jpg", alt: "Calm spa room with candles and towels" },
+  },
+  {
+    id: "body-polish",
+    category: "spa",
+    name: "Silk Body Polish",
+    description: "Sugar scrub, steam and a shea butter wrap for skin that feels like silk.",
+    durationMinutes: 90,
+    price: 4200,
+    image: { src: "/images/services/body-polish.jpg", alt: "Bowls of body scrub and fresh petals" },
+  },
+];
